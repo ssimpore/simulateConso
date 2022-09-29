@@ -50,7 +50,7 @@ option = st.sidebar.selectbox('Selectionnez le Location ID', (836, 'Autre locati
 inputs = getUserInput()
 
 conso_pred = model.predict(inputs)
-conso_pred = round(conso_pred[0], 2)
+conso_pred = round(conso_pred[0], 4)
 
 st.write('Precision du model : ', round(score,2)*100,'%')
 st.write('Mean Squared Error :',round(mean_squared_error,4))
