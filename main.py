@@ -35,26 +35,38 @@ def getUserInput():
     arg = pd.DataFrame(data, index=[0])
     return arg
 
+
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=5)
 
-#model = make_pipeline(StandardScaler(), GradientBoostingRegressor())
-#model.fit(X_train, y_train)
+# model = make_pipeline(StandardScaler(), GradientBoostingRegressor())
+# model.fit(X_train, y_train)
 
 model = pickle.load(open('model_pred_conso_836.pkl', 'rb'))
 
 score = model.score(X_test, y_test)
 mean_squared_error = mean_squared_error(y_test, model.predict(X_test))
-
+predicted = model.predict(X_test)
 option = st.sidebar.selectbox('Selectionnez le Location ID', (836, 'Autre location'))
 
 inputs = getUserInput()
 
 conso_pred = model.predict(inputs)
-conso_pred = round(conso_pred[0], 2)
+conso_pred = round(conso_pred[0], 4)
 
-st.write('Precision du model : ', round(score,2)*100,'%')
-st.write('Mean Squared Error :',round(mean_squared_error,4))
+st.write('Precision du model : ', round(score, 2) * 100, '%')
+st.write('Mean Squared Error :', round(mean_squared_error, 4))
 
-#st.write('Entrée : ', inputs)
+# st.write('Entrée : ', inputs)
 st.write('Prediction de la consommation : ', conso_pred, 'kWh')
-#print(mean_squared_error)
+
+import matplotlib.pyplot as plt
+
+# create your figure and get the figure object returned
+fig = plt.figure()
+plt.plot(y_test, label='Mesures')
+plt.plot(predicted, label='prediction')
+plt.ylabel('Consumption (kWh)')
+plt.xlabel('Time')
+plt.legend()
+st.title("Consommation Vs Prediction")
+st.pyplot(fig)
