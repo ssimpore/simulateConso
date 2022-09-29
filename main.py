@@ -63,7 +63,7 @@ import matplotlib.pyplot as plt
 
 # create your figure and get the figure object returned
 fig = plt.figure()
-plt.plot(y_test, label='Mesures')
+plt.plot(y_test, label='Mesure')
 plt.plot(predicted, label='prediction')
 plt.ylabel('Consumption (kWh)')
 plt.xlabel('Time')
