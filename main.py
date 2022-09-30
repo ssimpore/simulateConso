@@ -46,7 +46,7 @@ model = pickle.load(open('model_pred_conso_836.pkl', 'rb'))
 score = model.score(X_test, y_test)
 mean_squared_error = mean_squared_error(y_test, model.predict(X_test))
 predicted = model.predict(X_test)
-option = st.sidebar.selectbox('Selectionnez le Location ID', (836, 'Autre location'))
+option = st.sidebar.selectbox('Selection du logement', (836, 'Autre location_id'))
 
 inputs = getUserInput()
 
@@ -54,7 +54,7 @@ conso_pred = model.predict(inputs)
 conso_pred = round(conso_pred[0], 4)
 amb_temp = inputs['temp_sp'][0] + inputs['delta_sp_amb'][0]
 
-st.write('Precision du model : ', round(score, 2) * 100, '%')
+st.write('Précision du model : ', round(score, 2) * 100, '%')
 st.write('Mean Squared Error :', round(mean_squared_error, 4))
 
 # st.write('Entrée : ', inputs)
