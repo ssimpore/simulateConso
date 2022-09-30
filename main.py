@@ -20,7 +20,7 @@ y = np.array(df[['conso_tstats_telemetry']]).reshape(len(y))
 
 st.title("Simulation de la consommation des thermostats")
 
-st.sidebar.header("Les parametres d'entrée du modèl")
+st.sidebar.header("PARAMETTRES D'ENTRÉE")
 
 
 def getUserInput():
@@ -52,15 +52,18 @@ inputs = getUserInput()
 
 conso_pred = model.predict(inputs)
 conso_pred = round(conso_pred[0], 4)
+amb_temp = inputs['temp_sp'][0] + inputs['delta_sp_amb'][0]
 
 st.write('Precision du model : ', round(score, 2) * 100, '%')
 st.write('Mean Squared Error :', round(mean_squared_error, 4))
 
 # st.write('Entrée : ', inputs)
-st.write('Prediction de la consommation : ', conso_pred, 'kWh')
+st.write('Température ambiante (salle) : ', amb_temp, ' °C')
+st.write('Prédiction de la consommation : ', conso_pred, 'kWh')
 
 import matplotlib.pyplot as plt
 
+displayFig = st.sidebar.checkbox('Afficher la comparaison', value=False)
 # create your figure and get the figure object returned
 fig = plt.figure()
 plt.plot(y_test, label='Mesure')
@@ -68,5 +71,8 @@ plt.plot(predicted, label='prediction')
 plt.ylabel('Consumption (kWh)')
 plt.xlabel('Time')
 plt.legend()
-st.title("Consommation Vs Prediction")
-st.pyplot(fig)
+
+if displayFig:
+    st.title("Consommation Vs Prédiction")
+    st.pyplot(fig)
+
